@@ -1,12 +1,16 @@
 package com.trainibit.labs.sistema_gestion.dto;
 
+import com.trainibit.labs.sistema_gestion.model.Inventory;
 import com.trainibit.labs.sistema_gestion.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
     private Long id;
     private String name;
@@ -16,12 +20,16 @@ public class ProductDTO {
     private int stock;
     private Long storeId;
 
-    public ProductDTO(Product product) {
+    public ProductDTO(Product product, Inventory inventory) {
         this.id = product.getId();
         this.name = product.getName();
         this.category = product.getCategory();
         this.price = product.getPrice();
         this.sku = product.getSku();
-        this.storeId = product.getStore() != null ? product.getStore().getId() : null;
+        if (inventory != null) {
+            this.stock = inventory.getQuantity();
+            this.storeId = inventory.getStore().getId();
+        }
+
     }
 }

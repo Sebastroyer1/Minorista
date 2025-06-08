@@ -14,11 +14,11 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductRepository productRepository;
+    private  ProductRepository productRepository;
 
-    @Autowired
-    private StoreRepository storeRepository;
-
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public List<Product> getAllProducts() {
@@ -47,12 +47,6 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPrice(updatedProduct.getPrice());
         existingProduct.setSku(updatedProduct.getSku());
 
-        if (updatedProduct.getStore() != null && updatedProduct.getStore().getId() > 0) {
-            Store store = storeRepository.findById(updatedProduct.getStore().getId())
-                    .orElseThrow(() -> new RuntimeException("Tienda no encontrada"));
-            existingProduct.setStore(store);
-        }
-
         return productRepository.save(existingProduct);
     }
 
@@ -62,8 +56,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsByStore(Long storeId) {
-        return productRepository.findByStoreId(storeId);
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElse(null);
     }
+
+
 
 }

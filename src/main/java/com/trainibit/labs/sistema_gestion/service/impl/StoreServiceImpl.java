@@ -6,6 +6,8 @@ import com.trainibit.labs.sistema_gestion.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -17,4 +19,20 @@ public class StoreServiceImpl implements StoreService {
     public Store saveStore(Store store) {
         return storeRepository.save(store);
     }
+
+    @Override
+    public List<Store> getStores() {
+        return storeRepository.findAll();
+    }
+
+    @Override
+    public void deleteStore(Long id) {
+        storeRepository.deleteById(id);
+    }
+
+    @Override
+    public Store getStoreById(Long id) {
+        return storeRepository.findById(id).orElse(null);
+    }
+
 }
